@@ -2,21 +2,24 @@
 
 (def max-number-lifes 6)
 
-(defn gameover [] (print "You were hang!"))
+(defn lost [] (print "You were hang!"))
+(defn won [] (print "Congrats, you discovered the word!"))
 
-(defn game [lifes] (
+(defn missing-letters [word guesses]
+  (remove (fn [letter] (contains? guesses (str letter))) word)
+  )
+
+(defn guessed-word? [word guesses]
+  (empty? (missing-letters word guesses))
+  )
+
+(defn game [lifes word guesses] (
                     (if (= lifes 0)
-                      (gameover)
-                      (do
-                        (print lifes)
-                        (game (dec lifes))
+                      (lost)
+                      (if (guessed-word? word guesses)
+                        (won)
+                        (print "Try another letter")
                         )
                       )
                     )
   )
-
-
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
